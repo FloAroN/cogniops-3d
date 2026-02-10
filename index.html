@@ -3,197 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COGNIOPS | Neural AI Employees</title>
+    <title>COGNIOPS | Autonomous Intelligence for SaaS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- Three.js für 3D-Elemente -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
-    <!-- 3D Canvas Container -->
     <div id="canvas-container"></div>
     
-    <!-- UI Overlay -->
     <div class="ui-layer">
-        <!-- Header -->
-        <header class="cyber-header">
-            <div class="logo-container">
-                <div class="logo-cube"></div>
-                <h1 class="glitch" data-text="COGNIOPS">COGNIOPS</h1>
+        <header class="lux-header">
+            <div class="header-container">
+                <a href="#" class="lux-logo">
+                    <span class="logo-mark"></span>
+                    <span class="logo-text">COGNIOPS</span>
+                </a>
+                <nav class="lux-nav">
+                    <a href="#approach">Approach</a>
+                    <a href="#solutions">Solutions</a>
+                    <a href="#contact" class="nav-cta">Inquire</a>
+                </nav>
             </div>
-            <nav class="cyber-nav">
-                <a href="#system" class="nav-link">SYSTEM</a>
-                <a href="#capabilities" class="nav-link">CAPABILITIES</a>
-                <a href="#deploy" class="nav-link">DEPLOY</a>
-            </nav>
         </header>
 
-        <!-- Hero Section -->
-        <main class="cyber-main">
-            <section class="hero-section" id="system">
-                <div class="cyber-grid">
-                    <div class="grid-line vertical"></div>
-                    <div class="grid-line vertical"></div>
-                    <div class="grid-line horizontal"></div>
-                    <div class="grid-line horizontal"></div>
-                </div>
-                
+        <main>
+            <section class="hero-lux">
                 <div class="hero-content">
-                    <div class="terminal-window">
-                        <div class="terminal-header">
-                            <span class="terminal-btn"></span>
-                            <span class="terminal-btn"></span>
-                            <span class="terminal-btn"></span>
-                            <span class="terminal-title">neural_link.exe</span>
-                        </div>
-                        <div class="terminal-body">
-                            <p class="typing-text">> Initializing AI Employee v2.0...</p>
-                            <p class="typing-text delay-1">> Loading neural networks... [OK]</p>
-                            <p class="typing-text delay-2">> Bypassing human limitations... [OK]</p>
-                            <p class="typing-text delay-3">> System ready.</p>
-                        </div>
-                    </div>
-
-                    <h2 class="cyber-headline">
-                        <span class="highlight">AUTONOMOUS</span> AI EMPLOYEES<br>
-                        FOR <span class="glitch-text" data-text="SAAS">SAAS</span> ELITE
-                    </h2>
-                    
-                    <p class="cyber-subtitle">
-                        // Neural agents that research, write & close deals.<br>
-                        // Zero fatigue. Maximum output.
+                    <p class="eyebrow">Autonomous Employee Systems</p>
+                    <h1 class="hero-title">
+                        Intelligence that<br>
+                        <span class="italic">never</span> sleeps
+                    </h1>
+                    <p class="hero-subtitle">
+                        We deploy AI employees for SaaS enterprises. 
+                        Research, outreach, and qualification—handled entirely by autonomous agents. 
+                        Available 24 hours. Zero overhead.
                     </p>
-
-                    <div class="cta-container">
-                        <button class="cyber-button" onclick="document.getElementById('deploy-modal').style.display='flex'">
-                            <span class="button-text">INITIALIZE DEPLOYMENT</span>
-                            <span class="button-glitch"></span>
-                            <div class="button-corner tl"></div>
-                            <div class="button-corner tr"></div>
-                            <div class="button-corner bl"></div>
-                            <div class="button-corner br"></div>
-                        </button>
-                        <div class="status-indicator">
-                            <span class="status-dot"></span>
-                            <span class="status-text">SYSTEM ONLINE</span>
-                        </div>
+                    <div class="hero-actions">
+                        <a href="#contact" class="lux-button primary">Schedule Consultation</a>
+                        <a href="#approach" class="lux-button secondary">Explore Systems</a>
                     </div>
                 </div>
+                <div class="scroll-indicator">
+                    <div class="scroll-line"></div>
+                </div>
+            </section>
 
-                <div class="floating-stats">
-                    <div class="stat-card">
-                        <span class="stat-number" data-target="247">0</span>
-                        <span class="stat-label">HOURS ACTIVE</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number" data-target="847">0</span>
-                        <span class="stat-label">MEETINGS BOOKED</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number" data-target="99">0</span>
-                        <span class="stat-suffix">%</span>
-                        <span class="stat-label">UPTIME</span>
+            <section class="stats-lux" id="approach">
+                <div class="container">
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="8760">0</span>
+                            <span class="stat-label">Hours Available / Year</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="340">0</span>
+                            <span class="stat-label">Meetings Booked Monthly</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="99.9">0</span>
+                            <span class="stat-suffix">%</span>
+                            <span class="stat-label">System Uptime</span>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Capabilities Section -->
-            <section class="capabilities-section" id="capabilities">
-                <div class="section-header">
-                    <span class="section-id">[ MODULE_01 ]</span>
-                    <h3 class="section-title">CORE_CAPABILITIES</h3>
-                </div>
-                
-                <div class="cyber-cards">
-                    <div class="cyber-card" data-tilt>
-                        <div class="card-icon">
-                            <div class="hologram"></div>
-                        </div>
-                        <h4>NEURAL_RESEARCH</h4>
-                        <p>AI scans 50+ data sources per prospect. LinkedIn, TechStack, News, GitHub activity.</p>
-                        <div class="card-scanline"></div>
+            <section class="features-lux" id="solutions">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-eyebrow">Capabilities</span>
+                        <h2 class="section-title">The AI Employee</h2>
+                        <p class="section-desc">
+                            Unlike automation tools, our AI employees reason, adapt, and improve. 
+                            They function as autonomous members of your revenue team.
+                        </p>
                     </div>
 
-                    <div class="cyber-card" data-tilt>
-                        <div class="card-icon">
-                            <div class="hologram"></div>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-number">01</div>
+                            <h3>Autonomous Research</h3>
+                            <p>Deep investigation of prospects across 50+ data sources. LinkedIn, corporate filings, technographics, and intent signals analyzed instantly.</p>
                         </div>
-                        <h4>QUANTUM_COPY</h4>
-                        <p>Human-like persuasion at machine speed. Adaptive tone based on psychological profiles.</p>
-                        <div class="card-scanline"></div>
-                    </div>
 
-                    <div class="cyber-card" data-tilt>
-                        <div class="card-icon">
-                            <div class="hologram"></div>
+                        <div class="feature-card">
+                            <div class="feature-number">02</div>
+                            <h3>Natural Correspondence</h3>
+                            <p>Each message crafted uniquely based on psychological profiling. No templates. No variable insertion. Genuine conversation at scale.</p>
                         </div>
-                        <h4>AUTONOMOUS_HANDOFF</h4>
-                        <p>Qualifies leads in real-time. Books meetings only when intent score > 85%.</p>
-                        <div class="card-scanline"></div>
+
+                        <div class="feature-card">
+                            <div class="feature-number">03</div>
+                            <h3>Qualification & Handoff</h3>
+                            <p>AI qualifies leads against your ideal customer profile, books meetings directly into executive calendars, and briefs your team.</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Pricing Section -->
-            <section class="pricing-section" id="deploy">
-                <div class="holographic-container">
-                    <div class="pricing-header">
-                        <span class="pricing-id">[ PRICING_PROTOCOL ]</span>
-                        <h3>AI_EMPLOYEE_TIER</h3>
-                    </div>
-                    
-                    <div class="price-display">
-                        <span class="currency">$</span>
-                        <span class="amount">2,500</span>
-                        <span class="cycle">/CYCLE</span>
-                    </div>
+            <section class="pricing-lux" id="contact">
+                <div class="container">
+                    <div class="pricing-content">
+                        <span class="section-eyebrow">Investment</span>
+                        <h2 class="pricing-title">$2,500 <span class="period">per month</span></h2>
+                        <p class="pricing-desc">
+                            One AI Employee replaces three traditional SDRs. 
+                            No onboarding costs. No attrition. Immediate deployment.
+                        </p>
+                        
+                        <ul class="pricing-features">
+                            <li>Unlimited prospect research</li>
+                            <li>Personalized outreach sequences</li>
+                            <li>Calendar integration (Google/Outlook)</li>
+                            <li>CRM synchronization (Salesforce/HubSpot)</li>
+                            <li>Weekly performance reports</li>
+                            <li>Human escalation protocols</li>
+                        </ul>
 
-                    <ul class="feature-list">
-                        <li class="feature-item">
-                            <span class="checkmark">◈</span>
-                            <span>Unlimited Neural Processing</span>
-                        </li>
-                        <li class="feature-item">
-                            <span class="checkmark">◈</span>
-                            <span>Multi-Channel Outreach Matrix</span>
-                        </li>
-                        <li class="feature-item">
-                            <span class="checkmark">◈</span>
-                            <span>CRM Neural Link (HubSpot/Salesforce)</span>
-                        </li>
-                        <li class="feature-item">
-                            <span class="checkmark">◈</span>
-                            <span>24/7 Consciousness Stream</span>
-                        </li>
-                    </ul>
-
-                    <button class="cyber-button large">
-                        <span class="button-text">ESTABLISH NEURAL LINK</span>
-                    </button>
+                        <a href="mailto:hello@cogniops.io?subject=Consultation Request" class="lux-button primary large">Request Implementation</a>
+                    </div>
                 </div>
             </section>
+
+            <footer class="lux-footer">
+                <div class="container">
+                    <div class="footer-content">
+                        <div class="footer-brand">
+                            <span class="logo-mark small"></span>
+                            <span>COGNIOPS</span>
+                        </div>
+                        <div class="footer-meta">
+                            <p>© 2025 Cogniops Systems. All rights reserved.</p>
+                            <p>Built for discerning SaaS leaders.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </main>
-
-        <footer class="cyber-footer">
-            <div class="footer-grid">
-                <span class="footer-text">© 2025 COGNIOPS_NEURAL_SYSTEMS</span>
-                <span class="footer-status">STATUS: OPERATIONAL</span>
-                <span class="footer-version">v2.0.4</span>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Deploy Modal -->
-    <div id="deploy-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="document.getElementById('deploy-modal').style.display='none'">&times;</span>
-            <h3>INITIALIZE CONTACT</h3>
-            <p>Enter coordinates for neural link establishment:</p>
-            <form class="cyber-form">
-                <input type="email" placeholder="email@corporation.com" class="cyber-input">
-                <input type="text" placeholder="Company Name" class="cyber-input">
-                <button type="submit" class="cyber-button">TRANSMIT</button>
-            </form>
-        </div>
     </div>
 
     <script src="script.js"></script>
