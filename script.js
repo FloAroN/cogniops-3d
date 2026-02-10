@@ -1,152 +1,202 @@
-// Luxus 3D Szene - Eine einzelne goldene Kugel mit sanfter Partikel-Atmosphäre
-let scene, camera, renderer;
-let goldSphere, particleSystem;
-let mouseX = 0, mouseY = 0;
-let targetX = 0, targetY = 0;
+// 3D-Szene mit Three.js
+let scene, camera, renderer, particles, geometry, material;
+let mouseX = 0;
+let mouseY = 0;
 
+// Initialisierung wenn Seite geladen ist
 window.addEventListener('load', init);
 
 function init() {
-    // Szene
+    // Szene erstellen
     scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0a0a0a, 0.02);
+    scene.fog = new THREE.FogExp2(0x050508, 0.002);
 
     // Kamera
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 30;
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 50;
 
     // Renderer
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x0a0a0a, 1);
+    renderer.setPixelRatio(window.devicePixelRatio);
     
+    // Canvas in Container einfügen
     document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-    // Goldene Kugel (Icosahedron für facettierten Luxus-Look)
-    const geometry = new THREE.IcosahedronGeometry(4, 2);
+    // Partikel-System erstellen
+    createParticles();
     
-    // Material: Gold, aber subtil und transparent
-    const material = new THREE.MeshBasicMaterial({
-        color: 0xc9a961,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.15
-    });
-    
-    goldSphere = new THREE.Mesh(geometry, material);
-    scene.add(goldSphere);
+    // Schwimmende geometrische Formen
+    createFloatingShapes();
 
-    // Äußere leuchtende Kugel (Glow-Effekt)
-    const glowGeometry = new THREE.IcosahedronGeometry(4.2, 2);
-    const glowMaterial = new THREE.MeshBasicMaterial({
-        color: 0xc9a961,
-        transparent: true,
-        opacity: 0.03,
-        side: THREE.BackSide
-    });
-    const glowSphere = new THREE.Mesh(glowGeometry, glowMaterial);
-    goldSphere.add(glowSphere);
-
-    // Partikel-Atmosphäre (sehr subtil, wenige Partikel)
-    createAtmosphere();
-
-    // Event Listeners
+    // Event Listener
     document.addEventListener('mousemove', onMouseMove);
     window.addEventListener('resize', onWindowResize);
     
-    // Animation
+    // Animation starten
     animate();
-    
-    // Counter Animation
+
+    // Statistik-Counter Animation
     initCounters();
+    
+    // 3D-Karten-Effekt
+    initTiltEffect();
 }
 
-function createAtmosphere() {
-    const particleCount = 200; // Weniger ist mehr (Luxus)
+// Partikel-System (Neural Network Look)
+function createParticles() {
+    const particleCount = 1500;
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount; i++) {
-        // Kugelförmige Verteilung um die Hauptkugel
-        const radius = 10 + Math.random() * 20;
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos((Math.random() * 2) - 1);
-        
-        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-        positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-        positions[i * 3 + 2] = radius * Math.cos(phi);
+        // Zufällige Positionen im 3D-Raum
+        positions[i * 3] = (Math.random() - 0.5) * 200;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 200;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
 
-        // Gold/Weiß Mischung
+        // Farben (Cyan und Magenta Mix)
         const color = new THREE.Color();
-        if (Math.random() > 0.7) {
-            color.setHex(0xc9a961); // Gold
+        if (Math.random() > 0.5) {
+            color.setHex(0x00f3ff); // Cyan
         } else {
-            color.setHex(0xffffff); // Weiß
+            color.setHex(0xff00ff); // Magenta
         }
         colors[i * 3] = color.r;
         colors[i * 3 + 1] = color.g;
         colors[i * 3 + 2] = color.b;
     }
 
-    const geometry = new THREE.BufferGeometry();
+    geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-    const material = new THREE.PointsMaterial({
-        size: 0.05,
+    material = new THREE.PointsMaterial({
+        size: 0.5,
         vertexColors: true,
         transparent: true,
-        opacity: 0.6,
+        opacity: 0.8,
         blending: THREE.AdditiveBlending
     });
 
-    particleSystem = new THREE.Points(geometry, material);
-    scene.add(particleSystem);
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
 }
 
+// Schwimmende geometrische Formen
+const shapes = [];
+function createFloatingShapes() {
+    // Geometrien erstellen
+    const geometries = [
+        new THREE.IcosahedronGeometry(5, 0),
+        new THREE.OctahedronGeometry(4, 0),
+        new THREE.TetrahedronGeometry(6, 0)
+    ];
+    
+    const materials = [
+        new THREE.MeshBasicMaterial({ 
+            color: 0x00f3ff, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.3 
+        }),
+        new THREE.MeshBasicMaterial({ 
+            color: 0xff00ff, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.3 
+        }),
+        new THREE.MeshBasicMaterial({ 
+            color: 0x00ffff, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.2 
+        })
+    ];
+
+    for (let i = 0; i < 3; i++) {
+        const mesh = new THREE.Mesh(geometries[i], materials[i]);
+        
+        // Zufällige Startposition
+        mesh.position.x = (Math.random() - 0.5) * 100;
+        mesh.position.y = (Math.random() - 0.5) * 100;
+        mesh.position.z = (Math.random() - 0.5) * 50 - 20;
+        
+        // Eigene Geschwindigkeit
+        mesh.userData = {
+            rotationSpeed: {
+                x: (Math.random() - 0.5) * 0.02,
+                y: (Math.random() - 0.5) * 0.02,
+                z: (Math.random() - 0.5) * 0.02
+            },
+            floatSpeed: Math.random() * 0.01 + 0.005,
+            floatOffset: Math.random() * Math.PI * 2
+        };
+        
+        scene.add(mesh);
+        shapes.push(mesh);
+    }
+}
+
+// Maus-Interaktion
 function onMouseMove(event) {
-    // Sanfte Parallax-Bewegung
-    mouseX = (event.clientX - window.innerWidth / 2) * 0.001;
-    mouseY = (event.clientY - window.innerHeight / 2) * 0.001;
+    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    
+    // Parallax-Effekt für Partikel
+    if (particles) {
+        particles.rotation.x += mouseY * 0.001;
+        particles.rotation.y += mouseX * 0.001;
+    }
 }
 
+// Fenstergröße anpassen
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+// Animation Loop
 function animate() {
     requestAnimationFrame(animate);
-
-    const time = Date.now() * 0.001;
-
-    // Sanfte Rotation der Kugel (langsam wie ein Luxus-Uhrwerk)
-    goldSphere.rotation.y += 0.002;
-    goldSphere.rotation.x = Math.sin(time * 0.5) * 0.1;
-
-    // Partikel langsam rotieren
-    if (particleSystem) {
-        particleSystem.rotation.y = time * 0.05;
-        
-        // Partikel sanft pulsieren
-        const positions = particleSystem.geometry.attributes.position.array;
-        for (let i = 0; i < positions.length; i += 3) {
-            const y = positions[i + 1];
-            positions[i + 1] = y + Math.sin(time + positions[i] * 0.5) * 0.002;
-        }
-        particleSystem.geometry.attributes.position.needsUpdate = true;
-    }
-
-    // Kamera folgt Maus sanft (Smooth Lerp)
-    targetX += (mouseX - targetX) * 0.05;
-    targetY += (mouseY - targetY) * 0.05;
     
-    camera.position.x = targetX * 5;
-    camera.position.y = targetY * 5;
+    const time = Date.now() * 0.001;
+    
+    // Partikel rotation
+    if (particles) {
+        particles.rotation.y += 0.001;
+        particles.rotation.x += 0.0005;
+        
+        // Partikel pulsieren
+        const positions = particles.geometry.attributes.position.array;
+        for (let i = 0; i < positions.length; i += 3) {
+            positions[i + 1] += Math.sin(time + positions[i] * 0.05) * 0.02;
+        }
+        particles.geometry.attributes.position.needsUpdate = true;
+    }
+    
+    // Schwimmende Formen animieren
+    shapes.forEach((shape, index) => {
+        // Rotation
+        shape.rotation.x += shape.userData.rotationSpeed.x;
+        shape.rotation.y += shape.userData.rotationSpeed.y;
+        shape.rotation.z += shape.userData.rotationSpeed.z;
+        
+        // Auf und ab schweben
+        shape.position.y += Math.sin(time * shape.userData.floatSpeed + shape.userData.floatOffset) * 0.02;
+        
+        // Langsame Kreisbewegung
+        const radius = 20;
+        shape.position.x += Math.cos(time * 0.1 + index) * 0.05;
+        shape.position.z += Math.sin(time * 0.1 + index) * 0.05;
+    });
+    
+    // Kamera folgt Maus leicht
+    camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
+    camera.position.y += (mouseY * 10 - camera.position.y) * 0.05;
     camera.lookAt(scene.position);
-
+    
     renderer.render(scene, camera);
 }
 
@@ -155,16 +205,14 @@ function initCounters() {
     const counters = document.querySelectorAll('.stat-number');
     
     const observerOptions = {
-        threshold: 0.5,
-        rootMargin: '0px'
+        threshold: 0.5
     };
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const target = parseFloat(entry.target.getAttribute('data-target'));
-                const isFloat = target % 1 !== 0;
-                animateCounter(entry.target, target, isFloat);
+                const target = parseInt(entry.target.getAttribute('data-target'));
+                animateCounter(entry.target, target);
                 observer.unobserve(entry.target);
             }
         });
@@ -173,54 +221,56 @@ function initCounters() {
     counters.forEach(counter => observer.observe(counter));
 }
 
-function animateCounter(element, target, isFloat) {
-    const duration = 2000;
-    const start = 0;
-    const startTime = performance.now();
-    
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // Easing-Funktion (Ease-Out-Quart)
-        const ease = 1 - Math.pow(1 - progress, 4);
-        
-        const current = start + (target - start) * ease;
-        
-        if (isFloat) {
-            element.textContent = current.toFixed(1);
+function animateCounter(element, target) {
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            element.textContent = target;
+            clearInterval(timer);
         } else {
             element.textContent = Math.floor(current);
         }
-        
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            if (isFloat) {
-                element.textContent = target.toFixed(1);
-            } else {
-                element.textContent = target;
-            }
-        }
-    }
-    
-    requestAnimationFrame(update);
+    }, 30);
 }
 
-// Smooth Scroll für Navigation
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+// 3D Tilt-Effekt für Karten
+function initTiltEffect() {
+    const cards = document.querySelectorAll('[data-tilt]');
+    
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+        });
     });
-});
+}
 
-// Console
-console.log('%c COGNIOPS ', 'background: #c9a961; color: #0a0a0a; font-size: 16px; padding: 10px; font-weight: 500;');
-console.log('%c Autonomous Intelligence Systems ', 'color: #c9a961; font-size: 12px;');
+// Glitch-Effekt zufällig auslösen
+setInterval(() => {
+    const glitchElements = document.querySelectorAll('.glitch');
+    const randomElement = glitchElements[Math.floor(Math.random() * glitchElements.length)];
+    randomElement.style.animation = 'none';
+    setTimeout(() => {
+        randomElement.style.animation = '';
+    }, 100);
+}, 5000);
+
+// Konsole Easter Egg
+console.log('%c COGNIOPS NEURAL SYSTEM v2.0 ', 'background: #00f3ff; color: #000; font-size: 20px; font-weight: bold; padding: 10px;');
+console.log('%c >> Direct neural interface established ', 'color: #00f3ff; font-size: 14px;');
+console.log('%c >> Awaiting deployment commands... ', 'color: #ff00ff; font-size: 14px;');
